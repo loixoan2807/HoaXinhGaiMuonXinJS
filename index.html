@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button class="add" >Thêm</button>
+    <table border="1" style="border-collapse: collapse;" >
+        <thead>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>action</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        const getData = fetch(`http://localhost:3000/posts/`)
+        getData
+            .then((response) => response.json())
+            .then((data) => {
+                showUser(data)
+                const allDelete = document.querySelectorAll('.delete')
+                allDelete.forEach(item => {
+                    item.addEventListener("click", function () {
+                        var id = item.dataset.id;
+                        return removeItem(id)
+                    })
+                })
+                const allEdit = document.querySelectorAll('.edit')
+                allEdit.forEach(item => {
+                    item.addEventListener("click", function () {
+                        var id = item.dataset.id;
+                        return editItem(id)
+                    })
+                })
+            })
+        const showUser = (item) => {
+            document.querySelector("tbody").innerHTML = item.map(index => {
+                return `
+                <tr>
+                    <td>${index.id}</td>
+                    <td>${index.name}</td>
+                    <td>
+                        <button data-id="${index.id}" class="edit">Sửa</button>
+                        <button data-id="${index.id}" class="delete">Xóa</button>
+                    </td>
+                </tr>
+                `
+            }).join("")
+        }
+        const addItem = () => {
+            document.querySelector("body").innerHTML = `
+            <form action="#">
+                <input type="text" class="username"> <br>
+                <h3 class="err-name" style="color: red;" ></h3>
+                <button class="btn-add">add</button>
+            </form>            
+            `
+            document.querySelector(".btn-add").addEventListener("click", function () {
+                if (document.querySelector('.username').value == "") {
+                    document.querySelector(".err-name").innerHTML = "Bạn chưa nhập tên"
+                    return;
+                }
+                    const newUser = {
+                        "name": document.querySelector('.username').value
+                    }
+                    fetch("http://localhost:3000/posts", {
+                        method: "Post",
+                        headers: {
+                            "Content-Type": "Application/json"
+                        },
+                        body: JSON.stringify(newUser)
+                    }
+                    )
+                
+            })
+        }
+        document.querySelector(".add").addEventListener("click", addItem)
+        const editItem = (id) => {
+            fetch(`http://localhost:3000/posts/${id}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    document.querySelector("body").innerHTML = `
+                    <form action="">
+                        <input type="text" class="username" value="${data.name}"> <br><br>
+                        <button class="btn-edit">edit</button>
+                     </form>            
+                         `
+                    document.querySelector(".btn-edit").addEventListener("click", function () {
+                        const newUser = {
+                            "id": id,
+                            "name": document.querySelector(".username").value
+                        }
+                        fetch(`http://localhost:3000/posts/${id}`, {
+                            method: "Put",
+                            headers: {
+                                "Content-Type": "Application/json"
+                            },
+                            body: JSON.stringify(newUser)
+                        })
+                    })
+                })
+        }
+        const removeItem = (id) => {
+            fetch(`http://localhost:3000/posts/${id}`, {
+                method: "Delete"
+            })
+        }
+    </script>
+</body>
+
+</html>

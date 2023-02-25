@@ -1,0 +1,24 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "name": "Lợi 1"
+    },
+    {
+      "id": 2,
+      "name": "Tài"
+    },
+    {
+      "id": 3,
+      "name": "Ngọc"
+    },
+    {
+      "name": "hoa k xinh",
+      "id": 5
+    },
+    {
+      "name": "Lợi 1",
+      "id": 6
+    }
+  ]
+}
