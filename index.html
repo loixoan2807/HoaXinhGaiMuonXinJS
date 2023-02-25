@@ -65,7 +65,7 @@
             </form>            
             `
             document.querySelector(".btn-add").addEventListener("click", function () {
-                if (document.querySelector('.username').value == "") {
+                if (document.querySelector('.username').value.trim() == "") {
                     document.querySelector(".err-name").innerHTML = "Bạn chưa nhập tên"
                     return;
                 }
