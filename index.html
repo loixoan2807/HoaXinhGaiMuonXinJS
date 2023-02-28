@@ -9,8 +9,9 @@
 </head>
 
 <body>
-    <button class="add" >Thêm</button>
-    <table border="1" style="border-collapse: collapse;" >
+
+    <button class="add">Thêm</button>
+    <table border="1" style="border-collapse: collapse;">
         <thead>
             <tr>
                 <td>id</td>
@@ -69,18 +70,20 @@
                     document.querySelector(".err-name").innerHTML = "Bạn chưa nhập tên"
                     return;
                 }
-                    const newUser = {
-                        "name": document.querySelector('.username').value
-                    }
-                    fetch("http://localhost:3000/posts", {
-                        method: "Post",
-                        headers: {
-                            "Content-Type": "Application/json"
-                        },
-                        body: JSON.stringify(newUser)
-                    }
-                    )
-                
+                const newUser = {
+                    "name": document.querySelector('.username').value,
+                    
+                }
+                fetch("http://localhost:3000/posts", {
+                    method: "Post",
+                    headers: {
+                        "Content-Type": "Application/json"
+                    },
+                    body: JSON.stringify(newUser)
+                }
+                )
+                alert("Thêm thành công")
+
             })
         }
         document.querySelector(".add").addEventListener("click", addItem)
@@ -106,13 +109,17 @@
                             },
                             body: JSON.stringify(newUser)
                         })
+                        alert("Cập Nhật Thành Công")
                     })
                 })
         }
         const removeItem = (id) => {
-            fetch(`http://localhost:3000/posts/${id}`, {
-                method: "Delete"
-            })
+            if (confirm("Bạn Hoa Có muốn Xóa Khummmm ?")) {
+                fetch(`http://localhost:3000/posts/${id}`, {
+                    method: "Delete"
+                })
+                alert("Xóa Thành Công")
+            }
         }
     </script>
 </body>
